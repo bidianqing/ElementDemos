@@ -1,0 +1,27 @@
+﻿@model Menu
+
+@if (Model.Children.Count() == 0)
+{
+    <el-menu-item index="@Model.Id">@Model.Name</el-menu-item>
+}
+else
+{
+    <el-submenu index="@Model.Id">
+        <template slot="title">
+            @Model.Name
+        </template>
+
+        @foreach (var children in Model.Children)
+        {
+            if (children.Children.Count() == 0)
+            {
+                <el-menu-item index="@children.Id">@children.Name</el-menu-item>
+            }
+            else
+            {
+                @await Html.PartialAsync("~/Views/Home/_Menu.cshtml", children)
+            }
+        }
+    </el-submenu>
+}
+

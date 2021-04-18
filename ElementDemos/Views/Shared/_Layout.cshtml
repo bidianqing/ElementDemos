@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ElementDemos</title>
+    <link href="https://cdn.bootcss.com/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <el-container>
+        <el-header>Header</el-header>
+        <el-container>
+            <el-aside width="200px">
+
+            </el-aside>
+            <el-main>
+                @RenderBody()
+            </el-main>
+            <el-footer>Footer</el-footer>
+        </el-container>
+    </el-container>
+
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
