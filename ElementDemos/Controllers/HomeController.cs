@@ -70,5 +70,19 @@ namespace ElementDemos.Controllers
 
             return results;
         }
+
+        public async Task<IEnumerable<Menu>> AllMenu()
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            var allMenu = await connection.GetAllAsync<Menu>();
+
+            return allMenu;
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
     }
 }

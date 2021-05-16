@@ -11,7 +11,11 @@ namespace ElementDemos.Entities
 
         public string Name { get; set; }
 
+        public string Icon { get; set; }
+
         public int ParentId { get; set; }
+
+        public string Path { get; set; }
 
         [Computed]
         [Write(false)]

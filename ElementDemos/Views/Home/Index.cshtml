@@ -10,17 +10,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ElementDemos</title>
     <link href="https://cdn.bootcss.com/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .el-header, .el-footer {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            color: #333;
+        }
+
+        .el-tabs .el-tabs__content {
+            height: calc(100% - 54px)
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <el-container>
             <el-header>Header</el-header>
             <el-container>
-                <el-aside width="200px" style="background-color:red">
-                    <el-menu 
-                             default-active="1" 
-                             mode="vertical" 
+                <el-aside width="200px" style="height:calc(100vh - 76px);overflow-y: auto;">
+                    <el-menu default-active="1"
+                             mode="vertical"
+                             @@select="select"
                              background-color="#545c64"
                              text-color="#fff"
                              active-text-color="#ffd04b">
@@ -30,10 +45,23 @@
                         }
                     </el-menu>
                 </el-aside>
-                <el-main>
-                    Main
-                </el-main>
-                <el-footer>Footer</el-footer>
+
+                <el-container>
+                    <el-main>
+                        <el-tabs v-model="activeName" @@tab-click="clickTab" closable @@tab-remove="closeTab">
+                            <el-tab-pane v-for="(item, index) in tabs"
+                                         :key="item.index"
+                                         :label="item.title"
+                                         :name="item.index">
+
+                                    <iframe :src="item.url" :id="item.index" frameborder="0" style="height:100%;width:100%"></iframe>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </el-main>
+                    <el-footer>
+                        Footer
+                    </el-footer>
+                </el-container>
             </el-container>
         </el-container>
     </div>
@@ -55,11 +83,48 @@
         const vm = new Vue({
             data: {
                 menus: [],
+                tabs: [],
+                activeName: '',
             },
             mounted: function () {
-                httpClient.get('/home/menus').then(response => {
+                // 获取所有的菜单 没有使用递归
+                httpClient.get('/home/AllMenu').then(response => {
                     this.menus = response.data;
                 })
+            },
+            methods: {
+                select(index, indexPath) {
+                    let self = this;
+                    var tab = self.tabs.find(function (t) {
+                        return t.index == index;
+                    })
+
+                    if (!tab) {
+                        // 获取当前点击菜单的信息 Push到tabs
+                        var menu = self.menus.find(function (m) {
+                            return m.id == index;
+                        })
+                        self.tabs.push({
+                            index: index,
+                            title: menu.name,
+                            url: menu.path
+                        })
+                    }
+
+                    self.activeName = index;
+                },
+                closeTab(name) {
+                    // 从tabs中移除
+                    let self = this;
+                    self.tabs = self.tabs.filter(tab => tab.index != name);
+
+                    // 将tabs中的最后一个选中
+                    self.activeName = self.tabs[self.tabs.length - 1]?.index;
+                },
+                clickTab(tab, event) {
+                    //TODO 可以使菜单处于激活状态
+                    console.log(tab, event);
+                }
             }
         });
         vm.$mount('#app');

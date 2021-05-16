@@ -2,12 +2,16 @@
 
 @if (Model.Children.Count() == 0)
 {
-    <el-menu-item index="@Model.Id">@Model.Name</el-menu-item>
+    <el-menu-item index="@Model.Id">
+        <i class="@Model.Icon"></i>
+        <span>@Model.Name</span>
+    </el-menu-item>
 }
 else
 {
     <el-submenu index="@Model.Id">
         <template slot="title">
+            <i class="@Model.Icon"></i>
             @Model.Name
         </template>
 
@@ -15,7 +19,10 @@ else
         {
             if (children.Children.Count() == 0)
             {
-                <el-menu-item index="@children.Id">@children.Name</el-menu-item>
+                <el-menu-item index="@children.Id">
+                    <i class="@children.Icon"></i>
+                    <span>@children.Name</span>
+                </el-menu-item>
             }
             else
             {
