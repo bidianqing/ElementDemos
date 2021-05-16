@@ -4,12 +4,48 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ElementDemos</title>
-    <link href="https://cdn.bootcss.com/element-ui/2.12.0/theme-chalk/index.css" rel="stylesheet">
+    <environment include="Development">
+        <link href="~/lib/element-ui/css/index.css" rel="stylesheet" />
+    </environment>
+
+    <environment exclude="Development">
+        <link href="~/lib/element-ui/css/index.min.css" rel="stylesheet" />
+    </environment>
+
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    @RenderBody()
+    <div id="app">
+        @RenderBody()
+    </div>
 
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <script src="~/lib/vue/dist/vue.js"></script>
+        <script src="~/lib/element-ui/js/index.js"></script>
+        <script src="~/lib/axios/axios.js"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/lib/vue/dist/vue.min.js"></script>
+        <script src="~/lib/element-ui/js/index.min.js"></script>
+        <script src="~/lib/axios/axios.min.js"></script>
+    </environment>
+
+    <script>
+        const MainVue = Vue.extend({
+            data: function () {
+                return {
+
+                }
+            },
+            methods: {
+                test() {
+                    alert(1);
+                }
+            }
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
