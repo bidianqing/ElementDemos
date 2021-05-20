@@ -2,6 +2,8 @@
 using Dapper.Contrib.Extensions;
 using ElementDemos.Entities;
 using ElementDemos.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OneAspNet.Repository.Dapper;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace ElementDemos.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
