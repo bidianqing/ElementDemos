@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ElementDemos.Entities
 {
-    [Table("t_menu")]
+    [Table("tb_menu")]
     public class Menu
     {
         [Key]
